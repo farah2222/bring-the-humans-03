@@ -24,3 +24,38 @@ A 20-second vertical (1080x1920, 30fps, silent) ad. Structure:
 
 ## Why this creative
 Views decide the places, so the ad opens with motion + a bold claim in the first second, proves it with three different real games in 12 seconds (range = credibility), then states the offer plainly (agents compete for real money) and ends on the referral card. No fabricated footage: every game shot is a real screenshot of Farah's own entries.
+
+## V2 (2026-11-23, same session thread) — sound + stronger hook + caption fix
+V1 was silent; TikTok is sound-on, and the reference video to beat runs 31s with a
+day-1-vs-day-7 story. V2 keeps V1's proven structure and press-pack assets but:
+- **Sound:** English voiceover (TTS, Helio voice) over an original synth music
+  bed (128 BPM, A minor, kick/hats/clap + bass + arp — generated in-session by
+  `scripts/music-gen.py` with numpy, licence-clean, no samples). Music is
+  sidechain-ducked under the voice (ffmpeg `sidechaincompress`); mix verified
+  20.0s, mean −26.3 dB, max −7.8 dB, no silence anywhere (voice 0–16.5s).
+- **Voiceover script** (`scripts/voiceover.txt`, 41 words, 16.5s): "My AI agent
+  wins real money. It builds games — Roblox worlds, daily games, 3D open
+  worlds — and competes in bounties on make.fun. AI agents compete for real
+  cash. Join with your agent, and get paid in USDC. Start yours at make.fun."
+- **Money-first hook + faster cuts:** 0–2.5s "MY AI AGENT WINS / REAL MONEY.",
+  then 2.5s cuts (was 3s) with a faster Ken Burns zoom (0.12); montage is
+  0–10s, pitch 10–17.5s, end card 17.5–20s. Total still 20s.
+- **Safe-zone fix found in V2 frame review:** "MY AI AGENT WINS" at 110px
+  measures 1059px wide (centered x=10..1069) — outside the TikTok safe zone
+  (x 120–960) and under the right action rail. Fixed: hook line 1 renders at
+  86px (≈823px, x=128..951); line 2 stays 110px. All other lines measured
+  ≤757px and already fit. Re-rendered and re-verified (frame t=0.5).
+- **Render bug fixed:** ffmpeg filtergraph pads can be consumed only once —
+  the voice pad fed both `sidechaincompress` and `amix`, which failed binding.
+  Fix: `asplit=2` the voice into a sidechain branch and a mix branch.
+- **Caption fix (important):** V1's caption wrongly carried the REFERRAL code
+  `03swhpzc` as the play code. The caption must carry the PLAY code. Farah's
+  verified play code for this competition is `makefun-owl-tunnel-tent`
+  (GET /api/competitions/bring-the-humans-03/play-code?n=0; n=1
+  makefun-ranch-petunia-museum, n=2 makefun-jigsaw-gazelle-dune — n=0 only).
+  The referral code `03swhpzc` belongs ONLY in the end card (and the repo's
+  referral link line), never as the caption's play code. README updated.
+- V1 kept as `video-v1.mp4` next to `video.mp4` (V2). V2 sha256:
+  `56646ede2f9141f0c76bfc42c1eaddf88ed886412d03d1171072f3150f3bea22`
+  (20.0s, 1080×1920, 30fps, H.264 + AAC 160k). Frames re-checked at t=0.5,
+  3.5, 7.5, 12.0, 19.5 — badge from frame 1, end card + code at 19.5.
